@@ -1139,13 +1139,13 @@ def mlvote(args, prefix_name, batchsize, lr, sample, ws, bestepoch):
         max_iter=10000,
     )
     svm_model.fit(all_trainset, all_trainl)
-    save_path = f"{args.version}/output/{prefix_name}_{2}/{batchsize}_{lr}"
+    save_path = f"{args.version}/output/{prefix_name}_{4}/{batchsize}_{lr}"
     print(f"保存地址：{save_path}")
     with open(f"{save_path}/svm_model.pkl", "wb") as file:
         pickle.dump(svm_model, file)
 
     log_model = LogisticRegression(C=logp["C"], random_state=42)
-    log_model.fit(trainset[2], trainl[2])
+    log_model.fit(all_trainset, all_trainl)
     with open(f"{save_path}/log_model.pkl", "wb") as file:
         pickle.dump(log_model, file)
 
@@ -1179,7 +1179,7 @@ def mlvote(args, prefix_name, batchsize, lr, sample, ws, bestepoch):
         class_weight="balanced",
     )
 
-    rf_model.fit(trainset[2], trainl[2])
+    rf_model.fit(all_trainset, all_trainl)
     with open(f"{save_path}/rf_model.pkl", "wb") as file:
         pickle.dump(rf_model, file)
     
